@@ -1,0 +1,178 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Default deny-all safety net
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // Health-check / connection test document allowed for ping
+    match /test/{docId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    // Users Collection
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create: if isOwner(userId)
+        && request.resource.data.id == request.auth.uid
+        && request.resource.data.email is string
+        && request.resource.data.email.size() <= 256;
+      allow update: if isOwner(userId)
+        && request.resource.data.id == resource.data.id;
+      allow delete: if false;
+    }
+
+    // Wallets Collection
+    match /wallets/{walletId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+      allow create: if isSignedIn() 
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 64
+        && request.resource.data.balance is number;
+      allow update: if isSignedIn() 
+        && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+      allow delete: if isSignedIn() 
+        && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+    }
+
+    // Categories Collection
+    match /categories/{categoryId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || !('userId' in resource.data) || resource.data.isDefault == true);
+      allow create: if isSignedIn() 
+        && request.resource.data.userId == request.auth.uid 
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 64;
+      allow update: if isSignedIn() 
+        && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+      allow delete: if isSignedIn() 
+        && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+    }
+
+    // Transactions Collection
+    match /transactions/{transactionId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+      allow create: if isSignedIn() 
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.walletId is string
+        && request.resource.data.amount is number
+        && request.resource.data.amount > 0;
+      allow update: if isSignedIn() 
+        && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+      allow delete: if isSignedIn() 
+        && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+    }
+
+    // Budgets Collection
+    match /budgets/{budgetId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+      allow create: if isSignedIn() 
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.categoryId is string
+        && request.resource.data.limitAmount is number;
+      allow update: if isSignedIn() 
+        && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+      allow delete: if isSignedIn() 
+        && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+    }
+
+    // Savings Goals Collection
+    match /savings_goals/{goalId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+      allow create: if isSignedIn() 
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.goalName is string
+        && request.resource.data.goalName.size() > 0
+        && request.resource.data.goalName.size() <= 100
+        && request.resource.data.targetAmount is number;
+      allow update: if isSignedIn() 
+        && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+      allow delete: if isSignedIn() 
+        && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+    }
+
+    // Goal Transactions Collection (PRD v3 & ERD v3: Virtual Vault Deposits & Withdrawals)
+    match /goal_transactions/{goalTxId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+      allow create: if isSignedIn() 
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.goalId is string
+        && request.resource.data.amount is number;
+      allow update: if isSignedIn() 
+        && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+      allow delete: if isSignedIn() 
+        && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+    }
+
+    // Debts & Receivables Collection (legacy)
+    match /debts_receivables/{debtId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+      allow create: if isSignedIn() 
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.personName is string
+        && request.resource.data.personName.size() > 0
+        && request.resource.data.personName.size() <= 100
+        && request.resource.data.amount is number;
+      allow update: if isSignedIn() 
+        && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+      allow delete: if isSignedIn() 
+        && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+    }
+
+    // Debt Loans Collection (ERD v2)
+    match /debt_loans/{debtId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+      allow create: if isSignedIn() 
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.personName is string
+        && request.resource.data.personName.size() > 0
+        && request.resource.data.personName.size() <= 100
+        && request.resource.data.totalAmount is number;
+      allow update: if isSignedIn() 
+        && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+      allow delete: if isSignedIn() 
+        && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+    }
+
+    // Debt Payments Collection (ERD v2)
+    match /debt_payments/{paymentId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+      allow create: if isSignedIn() 
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.amountPaid is number;
+      allow update: if isSignedIn() 
+        && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+      allow delete: if isSignedIn() 
+        && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+    }
+
+    // Bills Collection (PRD v4 & ERD v4: Recurring Expenses Blueprint)
+    match /bills/{billId} {
+      allow get, list: if isSignedIn() && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+      allow create: if isSignedIn() 
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 100
+        && request.resource.data.expectedAmount is number;
+      allow update: if isSignedIn() 
+        && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+      allow delete: if isSignedIn() 
+        && (resource.data.userId == request.auth.uid || !('userId' in resource.data));
+    }
+  }
+}

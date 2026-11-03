@@ -1,0 +1,6 @@
+{
+  "name": "SmartFinance - Smart Personal Finance & Wealth Tracker",
+  "description": "Smart personal finance tracker with Google AI natural language logging, receipt OCR scanner, AI financial advisor, multi-wallet cash flow, budget limits, and savings goals in Novera design style.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

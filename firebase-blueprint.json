@@ -1,0 +1,237 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile authenticated via Google SSO",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "email": { "type": "string", "format": "email", "maxLength": 256 },
+        "displayName": { "type": "string", "maxLength": 128 },
+        "photoURL": { "type": "string", "maxLength": 1024 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "email", "createdAt"]
+    },
+    "Wallet": {
+      "title": "Wallet",
+      "description": "Financial wallet or account source for the user (Cash, Bank, E-Wallet)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "type": { "type": "string", "enum": ["E-Wallet", "Bank", "Cash", "Investment"] },
+        "balance": { "type": "number" },
+        "accountNumber": { "type": "string", "maxLength": 64 },
+        "color": { "type": "string", "maxLength": 32 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "name", "type", "balance", "createdAt"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Income or expense categories (default system or custom user)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "minLength": 1, "maxLength": 64 },
+        "type": { "type": "string", "enum": ["Income", "Expense"] },
+        "isDefault": { "type": "boolean" },
+        "icon": { "type": "string", "maxLength": 64 },
+        "color": { "type": "string", "maxLength": 32 }
+      },
+      "required": ["id", "name", "type", "isDefault"]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Financial transaction: Income, Expense, or Wallet Transfer",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "walletId": { "type": "string", "maxLength": 128 },
+        "destWalletId": { "type": "string", "maxLength": 128 },
+        "categoryId": { "type": "string", "maxLength": 128 },
+        "referenceId": { "type": "string", "maxLength": 128 },
+        "type": { "type": "string", "enum": ["Income", "Expense", "Transfer"] },
+        "amount": { "type": "number" },
+        "notes": { "type": "string", "maxLength": 500 },
+        "transactionDate": { "type": "string", "format": "date-time" },
+        "receiptItems": { "type": "string", "maxLength": 4096 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "walletId", "type", "amount", "transactionDate", "createdAt"]
+    },
+    "Budget": {
+      "title": "Budget",
+      "description": "Monthly category spending limit",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "categoryId": { "type": "string", "maxLength": 128 },
+        "month": { "type": "number" },
+        "year": { "type": "number" },
+        "limitAmount": { "type": "number" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "categoryId", "month", "year", "limitAmount", "createdAt"]
+    },
+    "SavingsGoal": {
+      "title": "SavingsGoal",
+      "description": "Savings target with allocated funds from a wallet",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "goalName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "targetAmount": { "type": "number" },
+        "currentAmount": { "type": "number" },
+        "status": { "type": "string", "enum": ["Active", "Completed"] },
+        "lastWithdrawnAt": { "type": "string" },
+        "walletId": { "type": "string", "maxLength": 128 },
+        "deadlineDate": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "goalName", "targetAmount", "currentAmount", "createdAt"]
+    },
+    "GoalTransaction": {
+      "title": "GoalTransaction",
+      "description": "Ledger of deposits and withdrawals for a virtual vault / savings goal",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "goalId": { "type": "string", "maxLength": 128 },
+        "walletId": { "type": "string", "maxLength": 128 },
+        "transactionId": { "type": "string", "maxLength": 128 },
+        "type": { "type": "string", "enum": ["Deposit", "Withdrawal"] },
+        "amount": { "type": "number" },
+        "transactionDate": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "goalId", "walletId", "type", "amount", "createdAt"]
+    },
+    "DebtLoan": {
+      "title": "DebtLoan",
+      "description": "Debt or loan tracking record (ERD v2)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "initialWalletId": { "type": "string", "maxLength": 128 },
+        "type": { "type": "string", "enum": ["Debt", "Loan"] },
+        "personName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "totalAmount": { "type": "number" },
+        "remainingAmount": { "type": "number" },
+        "description": { "type": "string", "maxLength": 500 },
+        "status": { "type": "string", "enum": ["Active", "Partial", "Solved"] },
+        "startDate": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "initialWalletId", "type", "personName", "totalAmount", "remainingAmount", "status", "startDate", "createdAt"]
+    },
+    "DebtPayment": {
+      "title": "DebtPayment",
+      "description": "Payment installment or settlement for a debt loan record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "debtLoanId": { "type": "string", "maxLength": 128 },
+        "walletId": { "type": "string", "maxLength": 128 },
+        "transactionId": { "type": "string", "maxLength": 128 },
+        "amountPaid": { "type": "number" },
+        "paymentDate": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "debtLoanId", "walletId", "amountPaid", "paymentDate", "createdAt"]
+    },
+    "DebtReceivable": {
+      "title": "DebtReceivable",
+      "description": "Track debts owed or receivables to collect (legacy)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "type": { "type": "string", "enum": ["Debt", "Receivable"] },
+        "personName": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "amount": { "type": "number" },
+        "status": { "type": "string", "enum": ["Unpaid", "Paid"] },
+        "dueDate": { "type": "string", "format": "date-time" },
+        "notes": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "type", "personName", "amount", "status", "createdAt"]
+    },
+    "Bill": {
+      "title": "Bill",
+      "description": "Recurring bills and subscriptions blueprint (PRD & ERD v4)",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 128 },
+        "userId": { "type": "string", "maxLength": 128 },
+        "name": { "type": "string", "minLength": 1, "maxLength": 100 },
+        "expectedAmount": { "type": "number" },
+        "billingCycle": { "type": "string", "enum": ["monthly", "yearly"] },
+        "dueDay": { "type": "number" },
+        "walletId": { "type": "string", "maxLength": 128 },
+        "categoryId": { "type": "string", "maxLength": 128 },
+        "isPaidThisCycle": { "type": "boolean" },
+        "lastPaidPeriod": { "type": "string" },
+        "lastPaidAt": { "type": "string" },
+        "description": { "type": "string", "maxLength": 500 },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "name", "expectedAmount", "billingCycle", "dueDay", "isPaidThisCycle", "createdAt"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profile collection isolated to the owner"
+    },
+    "/wallets/{walletId}": {
+      "schema": { "$ref": "#/entities/Wallet" },
+      "description": "Wallets collection owned by user"
+    },
+    "/categories/{categoryId}": {
+      "schema": { "$ref": "#/entities/Category" },
+      "description": "Global default or user custom categories"
+    },
+    "/transactions/{transactionId}": {
+      "schema": { "$ref": "#/entities/Transaction" },
+      "description": "Financial income/expense/transfer transactions"
+    },
+    "/budgets/{budgetId}": {
+      "schema": { "$ref": "#/entities/Budget" },
+      "description": "Category monthly expenditure budgets"
+    },
+    "/savings_goals/{goalId}": {
+      "schema": { "$ref": "#/entities/SavingsGoal" },
+      "description": "User savings goals with progress tracking"
+    },
+    "/goal_transactions/{goalTxId}": {
+      "schema": { "$ref": "#/entities/GoalTransaction" },
+      "description": "Virtual vault ledger transactions for deposits and withdrawals"
+    },
+    "/debt_loans/{debtId}": {
+      "schema": { "$ref": "#/entities/DebtLoan" },
+      "description": "Debts and loans tracking records"
+    },
+    "/debt_payments/{paymentId}": {
+      "schema": { "$ref": "#/entities/DebtPayment" },
+      "description": "Debt and loan payments history"
+    },
+    "/debts_receivables/{debtId}": {
+      "schema": { "$ref": "#/entities/DebtReceivable" },
+      "description": "Legacy debts and receivables tracking records"
+    },
+    "/bills/{billId}": {
+      "schema": { "$ref": "#/entities/Bill" },
+      "description": "Recurring bills and subscriptions collection"
+    }
+  }
+}
