@@ -272,18 +272,18 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
               <div className="flex flex-col justify-between h-full relative z-10">
                 <div>
                   {/* Top Row: Central Treasury Vault Badge & Navigation */}
-                  <div className="flex items-center justify-between gap-2 mb-3">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-xl bg-gradient-to-br from-amber-400/20 via-[#24D0FE]/20 to-purple-500/20 border border-white/15 flex items-center justify-center text-white backdrop-blur-md shadow-inner">
-                        <Coins className="w-4 h-4 text-amber-300" />
+                  <div className="flex items-center justify-between gap-2 mb-2 sm:mb-3">
+                    <div className="flex items-center gap-1.5 sm:gap-2 min-w-0">
+                      <div className="w-7 h-7 sm:w-8 sm:h-8 rounded-xl bg-gradient-to-br from-amber-400/20 via-[#24D0FE]/20 to-purple-500/20 border border-white/15 flex items-center justify-center text-white backdrop-blur-md shadow-inner shrink-0">
+                        <Coins className="w-3.5 h-3.5 sm:w-4 sm:h-4 text-amber-300" />
                       </div>
-                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold tracking-wider uppercase border border-amber-400/30 bg-amber-400/10 text-amber-200">
+                      <span className="px-2 py-0.5 sm:px-2.5 rounded-full text-[9.5px] sm:text-[10px] font-bold tracking-wider uppercase border border-amber-400/30 bg-amber-400/10 text-amber-200 truncate">
                         CENTRAL TREASURY VAULT
                       </span>
                     </div>
 
                     {/* Slider Chevrons */}
-                    <div className="flex items-center gap-1">
+                    <div className="flex items-center gap-1 shrink-0">
                       <button
                         onClick={handlePrevSlide}
                         className="w-7 h-7 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition-all cursor-pointer active:scale-90"
@@ -302,30 +302,30 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   </div>
 
                   {/* Multi-Asset Minimalist Chips: Bank, E-Wallets, Cash */}
-                  <div className="flex items-center gap-1.5 flex-wrap my-2">
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-white/[0.08] border border-white/10 text-[10px] text-gray-200 font-medium">
-                      <Landmark className="w-2.5 h-2.5 text-blue-400" />
+                  <div className="flex items-center gap-1.5 flex-wrap my-1.5 sm:my-2">
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/[0.08] border border-white/10 text-[9.5px] sm:text-[10px] text-gray-200 font-medium">
+                      <Landmark className="w-2.5 h-2.5 text-blue-400 shrink-0" />
                       <span>Bank Accounts</span>
                     </span>
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-white/[0.08] border border-white/10 text-[10px] text-gray-200 font-medium">
-                      <Smartphone className="w-2.5 h-2.5 text-sky-400" />
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/[0.08] border border-white/10 text-[9.5px] sm:text-[10px] text-gray-200 font-medium">
+                      <Smartphone className="w-2.5 h-2.5 text-sky-400 shrink-0" />
                       <span>E-Wallets</span>
                     </span>
-                    <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-white/[0.08] border border-white/10 text-[10px] text-gray-200 font-medium">
-                      <Banknote className="w-2.5 h-2.5 text-emerald-400" />
+                    <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-md bg-white/[0.08] border border-white/10 text-[9.5px] sm:text-[10px] text-gray-200 font-medium">
+                      <Banknote className="w-2.5 h-2.5 text-emerald-400 shrink-0" />
                       <span>Physical Cash</span>
                     </span>
                   </div>
 
                   {/* Balance Display */}
-                  <div className="mt-2.5 relative">
+                  <div className="mt-2.5 relative z-10">
                     <span className="text-[11px] font-medium text-gray-300 uppercase tracking-wider block">
                       Total Net Worth &amp; Liquid Portfolio
                     </span>
-                    <h3 className="font-extrabold text-3xl sm:text-4xl text-white tracking-tight mt-0.5 tabular-nums">
+                    <h3 className="font-extrabold text-2xl sm:text-4xl text-white tracking-tight mt-0.5 tabular-nums">
                       {formatIDR(totalNetWorth)}
                     </h3>
-                    <p className="text-xs text-gray-300 mt-1">
+                    <p className="text-xs text-gray-300 mt-1 max-w-sm">
                       Consolidated wealth across {wallets.length} active {wallets.length === 1 ? 'account' : 'accounts & e-wallets'}
                       {savingsGoals.length > 0 ? ` + ${savingsGoals.length} savings vaults` : ''}
                     </p>
@@ -333,7 +333,7 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                 </div>
 
                 {/* Subtle Luxury Vault & Bullion Coins Watermark SVG */}
-                <div className="absolute right-0 bottom-6 w-36 h-36 pointer-events-none opacity-20 overflow-hidden">
+                <div className="absolute -right-6 -bottom-6 w-32 h-32 sm:w-36 sm:h-36 pointer-events-none opacity-10 sm:opacity-20 overflow-hidden">
                   <svg viewBox="0 0 120 120" className="w-full h-full">
                     <circle cx="65" cy="65" r="46" stroke="#24D0FE" strokeWidth="1" strokeDasharray="3 3" fill="none" />
                     <circle cx="65" cy="65" r="35" stroke="#F59E0B" strokeWidth="1.5" fill="none" />
@@ -425,11 +425,11 @@ export const DashboardView: React.FC<DashboardViewProps> = ({
                   </div>
 
                   {/* Balance Title & Amount */}
-                  <div className="mt-2">
+                  <div className="mt-2 relative z-10">
                     <span className="text-[11px] font-medium text-gray-300 uppercase tracking-wider block">
                       {currentWallet?.name}
                     </span>
-                    <h3 className="font-extrabold text-3xl sm:text-4xl text-white tracking-tight mt-1 tabular-nums">
+                    <h3 className="font-extrabold text-2xl sm:text-4xl text-white tracking-tight mt-1 tabular-nums">
                       {formatIDR(currentWallet?.balance || 0)}
                     </h3>
                     <p className="text-xs text-gray-300 mt-1">

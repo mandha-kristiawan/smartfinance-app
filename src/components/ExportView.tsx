@@ -106,8 +106,8 @@ export const ExportView: React.FC<ExportViewProps> = ({
 
   const netCashFlow = totalIncome - totalExpense;
 
-  const handleExportPDF = () => {
-    exportTransactionsToPDF(
+  const handleExportPDF = async () => {
+    await exportTransactionsToPDF(
       filteredSortedTransactions,
       wallets,
       categories,
@@ -130,15 +130,22 @@ export const ExportView: React.FC<ExportViewProps> = ({
     <div className="space-y-8 animate-in fade-in duration-300">
       {/* Header */}
       <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <h2 className="font-extrabold text-2xl sm:text-3xl text-[#1A1A1A] tracking-tight">
-              Export &amp; Financial Reports
-            </h2>
+        <div className="flex items-center gap-3.5">
+          <img
+            src="/logo.png?v=2"
+            alt="SmartFinance Logo"
+            className="w-11 h-11 rounded-2xl object-contain shadow-sm border border-black/10 shrink-0"
+          />
+          <div>
+            <div className="flex items-center gap-2">
+              <h2 className="font-extrabold text-2xl sm:text-3xl text-[#1A1A1A] tracking-tight">
+                Export &amp; Financial Reports
+              </h2>
+            </div>
+            <p className="text-xs sm:text-sm text-gray-500 mt-0.5">
+              Generate publication-ready CSV and landscape PDF reports with custom timeframe filtering.
+            </p>
           </div>
-          <p className="text-xs sm:text-sm text-gray-500 mt-0.5">
-            Generate publication-ready CSV and landscape PDF reports with custom timeframe filtering.
-          </p>
         </div>
 
         {/* Primary Export Actions */}

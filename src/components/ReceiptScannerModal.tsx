@@ -238,12 +238,12 @@ export const ReceiptScannerModal: React.FC<ReceiptScannerModalProps> = ({
         </button>
 
         {/* Header */}
-        <div className="flex items-center gap-3 mb-5">
-          <div className="w-10 h-10 rounded-2xl bg-pink-100 flex items-center justify-center text-pink-950 font-bold shadow-xs">
+        <div className="flex items-center gap-3 mb-5 pr-10">
+          <div className="w-10 h-10 rounded-2xl bg-pink-100 flex items-center justify-center text-pink-950 font-bold shadow-xs shrink-0">
             <Receipt className="w-5 h-5 text-pink-700" />
           </div>
-          <div>
-            <h2 className="font-bold text-xl text-[#1A1A1A] tracking-tight">
+          <div className="min-w-0">
+            <h2 className="font-bold text-lg sm:text-xl text-[#1A1A1A] tracking-tight leading-snug">
               Receipt Scanner &amp; OCR
             </h2>
             <p className="text-xs text-gray-500">

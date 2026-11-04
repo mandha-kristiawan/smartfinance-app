@@ -168,15 +168,15 @@ export const NLPTransactionModal: React.FC<NLPTransactionModalProps> = ({
         </button>
 
         {/* Header */}
-        <div className="flex items-center gap-2.5 mb-2">
-          <div className="w-9 h-9 rounded-2xl bg-indigo-50 text-indigo-700 flex items-center justify-center font-bold">
+        <div className="flex items-center gap-2.5 mb-2 pr-10">
+          <div className="w-9 h-9 rounded-2xl bg-indigo-50 text-indigo-700 flex items-center justify-center font-bold shrink-0">
             <Sparkles className="w-4 h-4" />
           </div>
-          <div>
-            <h3 className="font-bold text-xl text-[#1A1A1A] tracking-tight">
+          <div className="min-w-0">
+            <h3 className="font-bold text-lg sm:text-xl text-[#1A1A1A] tracking-tight leading-snug">
               Record via AI Natural Language
             </h3>
-            <span className="text-[11px] text-gray-500 font-medium">
+            <span className="text-[11px] text-gray-500 font-medium block">
               Powered by Gemini 2.5 Flash
             </span>
           </div>

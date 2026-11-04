@@ -139,12 +139,14 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
         </button>
 
         {/* Header */}
-        <h2 className="font-bold text-2xl text-[#1A1A1A] mb-1 tracking-tight">
-          Manual Transaction Entry
-        </h2>
-        <p className="text-xs text-gray-500 mb-5">
-          Record cash flow for income, expenses, or account transfers.
-        </p>
+        <div className="pr-10 mb-5">
+          <h2 className="font-bold text-xl sm:text-2xl text-[#1A1A1A] mb-1 tracking-tight leading-snug">
+            Manual Transaction Entry
+          </h2>
+          <p className="text-xs text-gray-500">
+            Record cash flow for income, expenses, or account transfers.
+          </p>
+        </div>
 
         {/* Type Toggle Pills */}
         <div className="grid grid-cols-3 gap-1 bg-[#F1F3F9] p-1.5 rounded-full mb-6">

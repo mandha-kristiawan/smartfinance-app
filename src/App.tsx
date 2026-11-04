@@ -72,6 +72,7 @@ import { SavingsGoalsManager } from './components/SavingsGoalsManager';
 import { DebtsManager } from './components/DebtsManager';
 import { BillsManager } from './components/BillsManager';
 import { ExportView } from './components/ExportView';
+import { Sparkles, Receipt, Plus } from 'lucide-react';
 
 import { NLPTransactionModal } from './components/NLPTransactionModal';
 import { ReceiptScannerModal } from './components/ReceiptScannerModal';
@@ -202,9 +203,11 @@ export default function App() {
     return (
       <div className="min-h-screen bg-[#F8F9FD] flex items-center justify-center p-4">
         <div className="text-center space-y-3">
-          <div className="w-12 h-12 rounded-2xl bg-black flex items-center justify-center mx-auto text-white shadow-lg animate-pulse">
-            <span className="font-extrabold text-2xl text-[#24D0FE]">S</span>
-          </div>
+          <img
+            src="/logo.png?v=2"
+            alt="SmartFinance Logo"
+            className="w-14 h-14 rounded-2xl object-contain mx-auto shadow-lg border border-black/10 animate-pulse"
+          />
           <p className="font-bold text-lg text-[#1A1A1A] tracking-tight">SmartFinance</p>
           <p className="text-xs text-gray-500">Loading user session...</p>
         </div>
@@ -256,7 +259,7 @@ export default function App() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F9FD] text-[#1A1A1A] flex flex-col font-sans-body">
+    <div className="min-h-screen bg-[#F8F9FD] text-[#1A1A1A] flex flex-col font-sans-body overflow-x-hidden">
       {/* Top Navigation */}
       <Navbar
         currentTab={currentTab}
@@ -270,7 +273,7 @@ export default function App() {
       />
 
       {/* Main Content Area */}
-      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+      <main className="flex-1 max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-6 sm:py-8 pb-28 sm:pb-8">
         {currentTab === 'dashboard' && (
           <DashboardView
             user={currentUser}
@@ -430,30 +433,30 @@ export default function App() {
         )}
       </main>
 
-      {/* Floating Bottom Quick Action Bar for Mobile */}
-      <div className="fixed bottom-4 right-4 z-30 sm:hidden flex items-center gap-1.5 bg-white/95 backdrop-blur-md p-1.5 rounded-full border border-black/10 shadow-lg">
+      {/* Simplified Mobile Floating Action Dock (Centered, Sleek, Professional) */}
+      <div className="fixed bottom-5 left-1/2 -translate-x-1/2 z-40 sm:hidden flex items-center gap-1.5 bg-white/95 backdrop-blur-xl px-2.5 py-1.5 rounded-full border border-black/10 shadow-2xl">
         <button
           onClick={() => setShowNLPModal(true)}
-          className="px-3 py-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-[#1A1A1A] text-xs font-medium flex items-center gap-1 active:scale-95"
+          className="px-3 py-1.5 rounded-full bg-[#BABDFF]/25 hover:bg-[#BABDFF]/40 text-indigo-950 text-xs font-semibold flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer"
           title="AI Prompt Entry"
         >
-          <span className="text-xs">✨</span>
+          <Sparkles className="w-3.5 h-3.5 text-indigo-600 shrink-0" />
           <span>AI</span>
         </button>
         <button
           onClick={() => setShowReceiptModal(true)}
-          className="px-3 py-1.5 rounded-full bg-gray-100 hover:bg-gray-200 text-[#1A1A1A] text-xs font-medium flex items-center gap-1 active:scale-95"
+          className="px-3 py-1.5 rounded-full bg-pink-50 hover:bg-pink-100 text-pink-900 text-xs font-semibold flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer"
           title="Scan Receipt"
         >
-          <span className="text-xs">🧾</span>
+          <Receipt className="w-3.5 h-3.5 text-pink-600 shrink-0" />
           <span>Receipt</span>
         </button>
         <button
           onClick={() => setShowManualModal(true)}
-          className="px-3 py-1.5 rounded-full bg-black hover:bg-gray-800 text-white text-xs font-medium flex items-center gap-1 active:scale-95"
+          className="px-3.5 py-1.5 rounded-full bg-black hover:bg-gray-800 text-white text-xs font-semibold flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer shadow-xs"
           title="Manual Entry"
         >
-          <span>+</span>
+          <Plus className="w-3.5 h-3.5 text-[#24D0FE] shrink-0" />
           <span>Record</span>
         </button>
       </div>
@@ -496,6 +499,11 @@ export default function App() {
       <footer className="mt-auto border-t border-black/[0.06] bg-white py-4 px-6 text-xs text-gray-500">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
+            <img
+              src="/logo.png?v=2"
+              alt="SmartFinance"
+              className="w-5 h-5 rounded-md object-contain shadow-2xs border border-black/10"
+            />
             <span className="font-bold text-gray-900 tracking-tight">Cruizer SmartFinance</span>
           </div>
 

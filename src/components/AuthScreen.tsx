@@ -38,9 +38,11 @@ export const AuthScreen: React.FC = () => {
       {/* Top Header */}
       <header className="max-w-6xl mx-auto w-full flex items-center justify-between z-10">
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-2xl bg-black flex items-center justify-center text-white shadow-sm relative overflow-hidden">
-            <span className="font-extrabold text-xl text-[#24D0FE]">S</span>
-          </div>
+          <img
+            src="/logo.png?v=2"
+            alt="SmartFinance Logo"
+            className="w-10 h-10 rounded-2xl object-contain shadow-sm border border-black/10"
+          />
           <div>
             <h1 className="font-bold text-xl text-[#1A1A1A] tracking-tight leading-tight">
               SmartFinance
@@ -132,8 +134,12 @@ export const AuthScreen: React.FC = () => {
           <div className="relative rounded-[32px] bg-gradient-to-br from-[#18181B] via-[#0F0F12] to-[#1C1938] p-7 sm:p-8 text-white shadow-2xl border border-white/10 space-y-6 overflow-hidden">
             {/* Card Header */}
             <div className="flex items-center justify-between relative z-10">
-              <div className="flex items-center gap-2">
-                <div className="w-3.5 h-3.5 rounded-full bg-[#24D0FE] shadow-[0_0_8px_#24D0FE]" />
+              <div className="flex items-center gap-2.5">
+                <img
+                  src="/logo.png?v=2"
+                  alt="SmartFinance"
+                  className="w-5 h-5 rounded-md object-contain shadow-[0_0_8px_rgba(36,208,254,0.4)]"
+                />
                 <span className="font-semibold text-xs tracking-wider uppercase text-gray-300">
                   SmartFinance Obsidian
                 </span>

@@ -52,7 +52,7 @@ export function exportTransactionsToCSV(
   document.body.removeChild(link);
 }
 
-export function exportTransactionsToPDF(
+export async function exportTransactionsToPDF(
   transactions: Transaction[],
   wallets: Wallet[],
   categories: Category[],
@@ -63,6 +63,23 @@ export function exportTransactionsToPDF(
   // Initialize Landscape PDF (A4 landscape: 297mm x 210mm)
   const doc = new jsPDF({ orientation: 'landscape', unit: 'mm', format: 'a4' });
   const walletMap = new Map(wallets.map((w) => [w.id, w.name]));
+
+  // Try to add official app logo in the top-right header
+  try {
+    const res = await fetch('/logo.png?v=2');
+    if (res.ok) {
+      const blob = await res.blob();
+      const base64data = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.onerror = reject;
+        reader.readAsDataURL(blob);
+      });
+      doc.addImage(base64data, 'PNG', 257, 13, 26, 26);
+    }
+  } catch {
+    // Non-blocking fallback if image fetch fails
+  }
 
   // Header Title
   doc.setFont('helvetica', 'bold');

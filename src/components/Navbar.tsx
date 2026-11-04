@@ -83,9 +83,11 @@ export const Navbar: React.FC<NavbarProps> = ({
       <div className="max-w-7xl mx-auto flex items-center justify-between gap-4">
         {/* Brand: Logo & "developed by Cruizer" */}
         <div className="flex items-center gap-2.5 shrink-0">
-          <div className="w-8 h-8 rounded-xl bg-black flex items-center justify-center text-white shadow-2xs font-bold text-sm">
-            <span className="text-base font-extrabold tracking-tight text-[#24D0FE]">S</span>
-          </div>
+          <img
+            src="/logo.png?v=2"
+            alt="SmartFinance Logo"
+            className="w-8 h-8 rounded-xl object-contain shadow-2xs border border-black/10"
+          />
           <div>
             <h1 className="font-bold text-base text-[#1A1A1A] tracking-tight leading-tight">
               SmartFinance
@@ -120,18 +122,18 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Action Buttons */}
         <div className="flex items-center gap-2 shrink-0">
-          {/* Scan Receipt */}
+          {/* Scan Receipt (Visible on tablet & web; on mobile accessible via bottom floating dock) */}
           <button
             onClick={onOpenReceiptScan}
-            className="px-3.5 py-1.5 rounded-full border border-gray-200/90 bg-white hover:border-black/30 hover:bg-gray-50 text-[#1A1A1A] text-[12px] font-medium flex items-center gap-1.5 transition-all shadow-2xs active:scale-95 cursor-pointer"
+            className="hidden sm:flex px-3.5 py-1.5 rounded-full border border-gray-200/90 bg-white hover:border-black/30 hover:bg-gray-50 text-[#1A1A1A] text-[12px] font-medium items-center gap-1.5 transition-all shadow-2xs active:scale-95 cursor-pointer"
             title="Scan receipt with AI OCR"
           >
             <Receipt className="w-3.5 h-3.5 text-pink-600 shrink-0" />
             <span className="hidden sm:inline">Scan Receipt</span>
           </button>
 
-          {/* Consolidated + Record Button with Dropdown */}
-          <div className="relative" ref={recordDropdownRef}>
+          {/* Consolidated + Record Button with Dropdown (Visible on tablet & web; on mobile accessible via bottom floating dock) */}
+          <div className="hidden sm:block relative" ref={recordDropdownRef}>
             <button
               onClick={() => setShowRecordDropdown(!showRecordDropdown)}
               className="px-3.5 py-1.5 rounded-full bg-black hover:bg-gray-800 text-white text-[12px] font-medium flex items-center gap-1.5 transition-all shadow-xs active:scale-95 cursor-pointer"
@@ -278,8 +280,8 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </div>
 
-      {/* Mobile Horizontal Scroll Nav */}
-      <div className="flex lg:hidden overflow-x-auto gap-1 mt-2 pt-2 border-t border-gray-100 scrollbar-none">
+      {/* Mobile Navigation Grid (4 columns x 2 rows, perfectly fitting all 8 features without horizontal scrolling) */}
+      <div className="grid grid-cols-4 lg:hidden gap-1.5 mt-2 pt-2 border-t border-gray-100">
         {navItems.map((item) => {
           const Icon = item.icon;
           const isActive = currentTab === item.id;
@@ -287,14 +289,14 @@ export const Navbar: React.FC<NavbarProps> = ({
             <button
               key={item.id}
               onClick={() => setCurrentTab(item.id)}
-              className={`px-3 py-1 rounded-full text-[11px] whitespace-nowrap transition-all flex items-center gap-1.5 ${
+              className={`py-1.5 px-1 rounded-xl text-[10.5px] font-medium transition-all flex flex-col items-center justify-center gap-1 cursor-pointer active:scale-95 ${
                 isActive
-                  ? 'bg-black text-white font-medium shadow-2xs'
-                  : 'text-gray-600 hover:text-black bg-gray-100/70'
+                  ? 'bg-black text-white shadow-xs font-semibold'
+                  : 'text-gray-600 hover:text-black bg-gray-100/80 hover:bg-gray-200/80'
               }`}
             >
-              <Icon className="w-3 h-3" />
-              <span>{item.label}</span>
+              <Icon className={`w-3.5 h-3.5 shrink-0 ${isActive ? 'text-[#24D0FE]' : 'text-gray-500'}`} />
+              <span className="truncate max-w-full leading-tight">{item.label}</span>
             </button>
           );
         })}

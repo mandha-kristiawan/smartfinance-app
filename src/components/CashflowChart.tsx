@@ -117,12 +117,12 @@ export const CashflowChart: React.FC<CashflowChartProps> = ({ transactions }) =>
     <div className="bg-white rounded-[28px] p-6 border border-black/[0.06] shadow-xs relative overflow-hidden flex flex-col justify-between">
       {/* Header Bar */}
       <div>
-        <div className="flex items-center justify-between gap-3 mb-4">
-          <div className="min-w-0 flex-1">
-            <span className="text-xs font-semibold tracking-wider text-gray-400 uppercase">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+          <div className="min-w-0">
+            <span className="text-xs font-semibold tracking-wider text-gray-400 uppercase block">
               Cash Flow Trend
             </span>
-            <div className="flex items-baseline gap-2 mt-1 flex-wrap sm:flex-nowrap">
+            <div className="flex items-baseline gap-2 mt-1 flex-wrap">
               <h3 className="font-extrabold text-2xl text-[#1A1A1A] shrink-0 tracking-tight tabular-nums">
                 {activeMetric === 'expense'
                   ? formatIDR(totalExpenseInRange)
@@ -130,7 +130,7 @@ export const CashflowChart: React.FC<CashflowChartProps> = ({ transactions }) =>
                   ? formatIDR(totalIncomeInRange)
                   : formatIDR(netFlow)}
               </h3>
-              <span className="text-xs text-gray-500 font-medium truncate">
+              <span className="text-xs text-gray-500 font-medium">
                 {activeMetric === 'expense'
                   ? `Total Outflow (${timeRange === '7d' ? 'Last 7 Days' : 'Last 30 Days'})`
                   : activeMetric === 'income'
@@ -140,8 +140,8 @@ export const CashflowChart: React.FC<CashflowChartProps> = ({ transactions }) =>
             </div>
           </div>
 
-          {/* Controls: Fixed Top-Right Alignment across all states */}
-          <div className="flex items-center gap-2 shrink-0">
+          {/* Controls: Stacked on mobile, side-by-side on desktop */}
+          <div className="flex flex-wrap items-center gap-2 pt-1 sm:pt-0 shrink-0">
             {/* View filter pill */}
             <div className="flex items-center bg-[#F1F3F9] p-1 rounded-full text-[11px] font-semibold">
               <button
@@ -203,18 +203,18 @@ export const CashflowChart: React.FC<CashflowChartProps> = ({ transactions }) =>
         </div>
 
         {/* Legend & Summary Row */}
-        <div className="flex flex-wrap items-center gap-5 mb-3 text-xs">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-5 mb-3 text-xs">
           <div className="flex items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-[#10B981]" />
+            <div className="w-2.5 h-2.5 rounded-full bg-[#10B981] shrink-0" />
             <span className="text-gray-500 font-medium">Income (Inflow):</span>
             <span className="font-bold text-emerald-600">+{formatShortIDR(totalIncomeInRange)}</span>
           </div>
           <div className="flex items-center gap-2">
-            <div className="w-2.5 h-2.5 rounded-full bg-[#24D0FE]" />
+            <div className="w-2.5 h-2.5 rounded-full bg-[#24D0FE] shrink-0" />
             <span className="text-gray-500 font-medium">Expenses (Outflow):</span>
             <span className="font-bold text-[#1A1A1A]">-{formatShortIDR(totalExpenseInRange)}</span>
           </div>
-          <div className="flex items-center gap-2 ml-auto text-[11px] text-gray-400">
+          <div className="hidden sm:flex items-center gap-2 ml-auto text-[11px] text-gray-400">
             <span>Hover points for daily breakdown</span>
           </div>
         </div>
