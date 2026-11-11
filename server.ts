@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import { createServer as createViteServer } from 'vite';
+
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
@@ -281,6 +281,8 @@ Buat analisis keuangan yang tajam, empati, actionable, dan mudah dipahami dalam 
 });
 
 // Vite middleware in dev or static serving in production
+// ... (kode atas biarkan sama)
+
 async function startServer() {
   try {
     if (process.env.NODE_ENV === 'production') {
@@ -289,6 +291,9 @@ async function startServer() {
         res.sendFile(path.resolve(__dirname, 'dist', 'index.html'));
       });
     } else {
+      // 1. TAMBAHKAN DYNAMIC IMPORT VITE DI SINI
+      const { createServer: createViteServer } = await import('vite');
+      
       const vite = await createViteServer({
         server: {
           middlewareMode: true,
