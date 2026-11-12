@@ -28,7 +28,7 @@ const ai = new GoogleGenAI({
 
 // Helper for Gemini AI content generation with fallback
 async function generateGeminiContent(contents: any, schema: any, promptText?: string) {
-  const modelsToTry = ['gemini-3.8-flash', 'gemini-3.5-flash'];
+  const modelsToTry = ['gemini-3.5-flash', 'gemini-3.5-flash'];
   let lastError: any = null;
 
   for (const modelName of modelsToTry) {
